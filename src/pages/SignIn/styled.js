@@ -33,7 +33,7 @@ export const Button = styled.button`
 export const Title = styled.h1`
     margin-bottom: 10px;
     font-size: 20px;
-    color:#000000;
+    color: #000000;
 `;
 export const InputWrapper = styled.div`
     position: relative;
