@@ -18,14 +18,19 @@ export const Input = styled.input`
     padding: 0 40px;
     border-radius: 30px;
     color: #fff;
+    background-color: #696969;
+    :: placeholder {
+        color: #ffffff;
+        opacity: 0.3;
+    }
 `;
 export const Button = styled.button`
     position: absolute;
     right: 20px;
-    border: 2px solid #fff;
+    border: 1px solid #fff;
     color: #fff;
     font-weight: 700;
-    background-color: #000;
+    background-color: #585858;
     border-radius: 30px;
     padding: 5px 20px;
     &:hover {
@@ -33,4 +38,18 @@ export const Button = styled.button`
         background-color: #fff;
         color: #000;
     }
+`;
+export const Container = styled.div`
+    width: 100%;
+    min-width: 320px;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 10px;
+`;
+export const Wrapper = styled.div`
+    background-color: #000000;
+    min-height: 75px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 `;

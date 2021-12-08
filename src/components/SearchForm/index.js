@@ -1,15 +1,18 @@
 import { IoSearch } from "react-icons/io5";
-import { Form, Label, Input, Button } from "./styled";
-
+import { Form, Label, Input, Button, Container, Wrapper } from "./styled";
 
 export const SearchForm = () => {
     return (
-        <Form>
-            <Label>
-                <IoSearch style={{ position: "absolute", left: "20px" }} fill="#fff" />
-                <Input type="search" placeholder="Search additional films" />
-                <Button> Search </Button>
-            </Label>
-        </Form>
+        <Wrapper>
+            <Container>
+                <Form>
+                    <Label>
+                        <IoSearch style={{ position: "absolute", left: "20px", background: "#696969" }} fill="#fff" />
+                        <Input type="search" placeholder="Search " />
+                        <Button> Search </Button>
+                    </Label>
+                </Form>
+            </Container>
+        </Wrapper>
     );
 };
