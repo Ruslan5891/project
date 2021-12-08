@@ -1,20 +1,35 @@
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
+import { setupError } from "../../reducers/statusSlice";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { checkValidity } from "../../reducers/statusSlice";
+
 import { Button, Input, Title, Form, InputWrapper, FormWrapper, Error } from "./styled";
 
 export const SignIn = () => {
     const history = useNavigate();
+    const dispatch = useDispatch();
+
+    const errorMessage = useSelector((state) => state.authorization.errorMessage);
+    const allUsers = useSelector((state) => state.authorization.allUsers);
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const dispatch = useDispatch();
+    
+    useEffect(() => {
+        dispatch(setupError(" "));
+    }, []);
+    
     const onSubmit = (data) => {
-        dispatch(checkValidity(data));
-        history('/');
+        const payload = {
+            data,
+            history,
+            allUsers,
+        };
+        dispatch(checkValidity(payload));
     };
 
     return (
@@ -27,7 +42,10 @@ export const SignIn = () => {
                             type="email"
                             placeholder="Email"
                             name="email"
-                            {...register("email", { pattern: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/, required: true })}
+                            {...register("email", {
+                                pattern: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+                                required: true,
+                            })}
                         />
                         {errors.email && <Error>Введите коректный email</Error>}
                     </InputWrapper>
@@ -38,7 +56,11 @@ export const SignIn = () => {
                             name="password"
                             {...register("password", { pattern: /^[a-z0-9_-]{6,18}$/, required: true })}
                         />
-                        {errors.password && <Error>Не коректный пароль </Error>}
+                        {errors.password ? (
+                            <Error> Не валидный пароль </Error>
+                        ) : (
+                            errorMessage && <Error>{errorMessage}</Error>
+                        )}
                     </InputWrapper>
 
                     <Button type="submit">Sign In</Button>

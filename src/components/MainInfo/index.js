@@ -5,9 +5,11 @@ import { useEffect } from "react";
 import { fetchTitleFilm } from "../../reducers/fetchTitleFilm";
 export const MainInfo = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(fetchTitleFilm());
     }, [dispatch]);
+
     const filmData = useSelector((state) => state.titleFilm.titleFilm);
     const { Title, Plot } = filmData;
 

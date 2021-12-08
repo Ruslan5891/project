@@ -4,8 +4,8 @@ import App from "./components/App";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./store/store";
-
+import { store } from "./store/store";
+import { saveState } from "./cookiesStorage";
 const Global = createGlobalStyle`
 * {
   box-sizing: border-box;
@@ -18,6 +18,12 @@ const Global = createGlobalStyle`
     };
 }
 `;
+
+store.subscribe(() => {
+    saveState({
+        authorization: store.getState().authorization,
+    });
+});
 
 ReactDOM.render(
     <Provider store={store}>

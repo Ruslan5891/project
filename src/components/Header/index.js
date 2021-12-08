@@ -1,15 +1,26 @@
 import { useSelector, useDispatch } from "react-redux";
 import { changeStatus } from "../../reducers/statusSlice";
+import { useEffect } from "react";
+import { getAllUsers } from "../../reducers/statusSlice";
 import { Link, NavLink } from "react-router-dom";
 import { Container, HeaderElem, Wrapper, Button, LoginButton, LogoImg, ButtonWrapper } from "./styled";
 
 export const Header = () => {
-    const isLogin = useSelector((state) => state.authorization.isLogin);
-    const user = useSelector((state) => state.authorization.userProfile);
     const dispatch = useDispatch();
+
+    const isLogin = useSelector((state) => state.authorization.isLogin);
+    const userProfile = useSelector((state) => state.authorization.userProfile);
+    const allUsers = useSelector((state) => state.authorization.allUsers);
+
     const handleChanheStatus = () => {
         dispatch(changeStatus());
-    }
+    };
+    useEffect(() => {
+        const searchingUser = allUsers.map((element) =>
+            element && element.id === userProfile.id ? { ...userProfile } : element
+        );
+        dispatch(getAllUsers(searchingUser));
+    }, [userProfile]);
     return (
         <div>
             <Wrapper>
@@ -21,14 +32,16 @@ export const Header = () => {
                         <ButtonWrapper>
                             {isLogin ? (
                                 <>
-                                    <LoginButton type="button"> {user.firstName} </LoginButton>
+                                    <LoginButton type="button"> Welcome {userProfile.firstName} </LoginButton>
                                     <NavLink to="/favorites">
                                         <Button type="button"> Favorites </Button>
                                     </NavLink>
                                     <NavLink to="/history">
                                         <Button type="button"> History </Button>
                                     </NavLink>
-                                    <Button type="button" onClick={handleChanheStatus}> Log Out</Button>
+                                    <Button type="button" onClick={handleChanheStatus}>
+                                        Log Out
+                                    </Button>
                                 </>
                             ) : (
                                 <>

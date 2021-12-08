@@ -2,19 +2,23 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addProfile } from "../../reducers/statusSlice";
+import { v4 as uuidv4 } from "uuid";
 import { Button, Input, Title, Form, InputWrapper, FormWrapper, Error } from "./styled";
 
 export const Registration = () => {
-    const history = useNavigate();
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
     const dispatch = useDispatch();
+    
     const onSubmit = (data) => {
-        dispatch(addProfile(data));
-        history("/");
+        let newUser = { ...data, id: uuidv4() };
+        dispatch(addProfile(newUser));
+        navigate("/");
     };
 
     return (

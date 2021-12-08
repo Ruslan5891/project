@@ -2,19 +2,16 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 //const APIKey = '83713537';
 
-export const fetchFilms = createAsyncThunk("films/fetchFilms", async function () {
-    const response = await fetch("http://www.omdbapi.com/?apikey=83713537&s=all&type=movie");
+export const fetchFilms = createAsyncThunk("films/fetchFilms", async function (payload) {
+    const { searchQuery, pageNumber } = payload;
+
+    const response = await fetch(
+        `http://www.omdbapi.com/?apikey=83713537&s=${searchQuery}&type=movie&page=${pageNumber}`
+    );
 
     const data = await response.json();
     return data;
 });
-
-// export const fetchTitleFilm = createAsyncThunk("films/fetchFilms", async function () {
-//     const response = await fetch("http://www.omdbapi.com/?apikey=83713537&i=tt0842926");
-
-//     const data = await response.json();
-//     return data;
-// });
 
 const filmsSlice = createSlice({
     name: "autorization",
@@ -22,21 +19,15 @@ const filmsSlice = createSlice({
         films: [],
     },
     reducers: {
-        getAllFilms() {},
+        
     },
     extraReducers: {
-        [fetchFilms.pending]: (state) => {
-        },
+        [fetchFilms.pending]: (state) => {},
         [fetchFilms.fulfilled]: (state, action) => {
-            state.films = action.payload;
+            state.films = action.payload.Search;
         },
         [fetchFilms.rejected]: (state, action) => {},
-        // [fetchTitleFilm.pending]: () => {},
-        // [fetchTitleFilm.fulfilled]: (state, action) => {
-        //     state.titleFilm = action.payload;
-        // },
-        // [fetchTitleFilm.rejected]: () => {},
     },
 });
-export const { getAllFilms } = filmsSlice.actions;
+export const {} = filmsSlice.actions;
 export default filmsSlice.reducer;
